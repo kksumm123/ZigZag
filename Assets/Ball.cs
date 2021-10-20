@@ -11,10 +11,28 @@ public class Ball : MonoBehaviour
     }
     MoveDirection moveDirection = MoveDirection.Right;
 
+    Rigidbody rigid;
+    Quaternion originRotate;
+    private void Start()
+    {
+        originRotate = transform.rotation;
+        rigid = GetComponent<Rigidbody>();
+    }
     void Update()
     {
+        Compenstaion();
+
         ChangeMoveDirection();
         Move();
+    }
+
+    private void Compenstaion()
+    {
+        transform.rotation = originRotate;
+        var velocity = rigid.velocity;
+        velocity.x = 0;
+        velocity.z = 0;
+        rigid.velocity = velocity;
     }
 
     private void ChangeMoveDirection()
