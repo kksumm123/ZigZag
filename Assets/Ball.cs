@@ -14,17 +14,37 @@ public class Ball : MonoBehaviour
 
     Rigidbody rigid;
     Quaternion originRotate;
+    Material material;
     private void Start()
     {
         originRotate = transform.rotation;
         rigid = GetComponent<Rigidbody>();
+        material = GetComponent<Renderer>().sharedMaterial;
     }
     void Update()
     {
+        TilingMaterial();
         IsGameOver();
         Compenstaion();
         ChangeMoveDirection();
         Move();
+    }
+
+    Vector2 offsetMainTex;
+    private void TilingMaterial()
+    {
+        offsetMainTex = material.GetTextureOffset("_MainTex");
+        offsetMainTex.y -= 2f * Time.deltaTime;
+        switch (moveDirection)
+        {
+            case MoveDirection.Left:
+                offsetMainTex.x -= 1f * Time.deltaTime;
+                break;
+            case MoveDirection.Right:
+                offsetMainTex.x += 1f * Time.deltaTime;
+                break;
+        }
+        material.SetTextureOffset("_MainTex", offsetMainTex);
     }
 
     private void IsGameOver()
