@@ -52,6 +52,7 @@ public class MapGenerator : MonoBehaviour
 
             prevCube = currentCube;
         }
+        baseItem.gameObject.SetActive(false);
     }
 
     private void GenerateLeft()

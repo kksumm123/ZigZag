@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,10 +21,21 @@ public class Ball : MonoBehaviour
     }
     void Update()
     {
+        IsGameOver();
         Compenstaion();
-
         ChangeMoveDirection();
         Move();
+    }
+
+    private void IsGameOver()
+    {
+        if (transform.position.y > 1)
+            return;
+        if (rigid.velocity.sqrMagnitude < 0.1f)
+            return;
+
+        print("게임 오바");
+        Debug.Break();
     }
 
     private void Compenstaion()
@@ -38,7 +50,10 @@ public class Ball : MonoBehaviour
     private void ChangeMoveDirection()
     {
         if (Input.anyKeyDown)
+        {
             moveDirection = moveDirection == MoveDirection.Left ? MoveDirection.Right : MoveDirection.Left;
+            ScoreUI.instance.AddScore(1);
+        }
     }
 
     Vector3 move = Vector3.zero;
